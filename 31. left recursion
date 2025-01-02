@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+
+void eliminateLeftRecursion(char nonTerminal, char *productions) {
+    char alpha[10], beta[10];
+    int i = 0, j = 0, k = 0;
+
+    // Separate alpha and beta
+    while (productions[i] != '|' && productions[i] != '\0') {
+        alpha[j++] = productions[i++];
+    }
+    alpha[j] = '\0';
+    i++;  // Skip '|'
+    while (productions[i] != '\0') {
+        beta[k++] = productions[i++];
+    }
+    beta[k] = '\0';
+
+    // Print modified grammar
+    printf("Modified Grammar:\n");
+    printf("%c -> %s%c'\n", nonTerminal, beta, nonTerminal);
+    printf("%c' -> %s%c' | ε\n", nonTerminal, alpha, nonTerminal);
+}
+
+int main() {
+    char nonTerminal, productions[20];
+
+    printf("Enter the non-terminal: ");
+    scanf(" %c", &nonTerminal);
+    printf("Enter the production (format: A->Aα|β): ");
+    scanf("%s", productions);
+
+    eliminateLeftRecursion(nonTerminal, productions);
+    return 0;
+}
