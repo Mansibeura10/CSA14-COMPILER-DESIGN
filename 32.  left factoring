@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <string.h>
+
+void eliminateLeftFactoring(char nonTerminal, char *productions) {
+    char commonPrefix[10], suffix1[10], suffix2[10];
+    int i = 0, j = 0;
+
+    // Extract the common prefix
+    while (productions[i] == productions[i + j]) {
+        commonPrefix[j] = productions[i];
+        i++;
+        j++;
+    }
+    commonPrefix[j] = '\0';
+
+    // Extract suffixes
+    strcpy(suffix1, &productions[i]);
+    strcpy(suffix2, &productions[i + strlen(suffix1) + 1]);
+
+    // Print modified grammar
+    printf("Modified Grammar:\n");
+    printf("%c -> %s%c'\n", nonTerminal, commonPrefix, nonTerminal);
+    printf("%c' -> %s | %s\n", nonTerminal, suffix1, suffix2);
+}
+
+int main() {
+    char nonTerminal, productions[20];
+
+    printf("Enter the non-terminal: ");
+    scanf(" %c", &nonTerminal);
+    printf("Enter the production (format: A->αβ|αγ): ");
+    scanf("%s", productions);
+
+    eliminateLeftFactoring(nonTerminal, productions);
+    return 0;
+}
